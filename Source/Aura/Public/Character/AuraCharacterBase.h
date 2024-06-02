@@ -9,13 +9,19 @@
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AAuraCharacterBase();
+    AAuraCharacterBase();
 
 protected:
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    TObjectPtr<USkeletalMeshComponent> Weapon;
 
+    UPROPERTY(VisibleAnywhere, Category = "Combat")
+    FName WeaponSocketName = "WeaponHandSocket";
+
+    
 };

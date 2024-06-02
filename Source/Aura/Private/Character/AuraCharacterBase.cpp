@@ -6,15 +6,14 @@
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
-	PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 
+    Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+    Weapon->SetupAttachment(GetMesh(), WeaponSocketName);
+    Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AAuraCharacterBase::BeginPlay()
 {
-	Super::BeginPlay();
-	
+    Super::BeginPlay();
 }
-
-
-
