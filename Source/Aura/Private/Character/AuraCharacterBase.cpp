@@ -3,6 +3,8 @@
 
 #include "Character/AuraCharacterBase.h"
 
+#include "AbilitySystemComponent.h"
+
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -11,6 +13,19 @@ AAuraCharacterBase::AAuraCharacterBase()
     Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
     Weapon->SetupAttachment(GetMesh(), WeaponSocketName);
     Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    
+
+
+}
+
+UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
+{
+    return AbilitySystemComponent;
+}
+
+UAttributeSet* AAuraCharacterBase::GetAttributeSet() const
+{
+    return AttributeSet;
 }
 
 void AAuraCharacterBase::BeginPlay()
