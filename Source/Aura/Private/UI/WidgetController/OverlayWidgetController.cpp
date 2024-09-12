@@ -21,7 +21,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
     const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-
+    //----------------------------------------------------------------------------------------------------------------
     // Get Attributes in Delegate***************
     AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
         AuraAttributeSet->GetHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {
@@ -42,18 +42,22 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
         AuraAttributeSet->GetMaxManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {
         OnMaxManaChanged.Broadcast(Data.NewValue);
     });
+    //----------------------------------------------------------------------------------------------------------------
 
     Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->OnEffectAssetTagsDelegate.AddLambda(
-        [](const FGameplayTagContainer& AssetTags) {
+        [this](const FGameplayTagContainer& AssetTags) {
 
             for (const FGameplayTag& Tag : AssetTags)
             {
-                //TODO: Broadcast the tag to the Widget Controller
-                const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-                GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
+
+                FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+                if (Tag.MatchesTag(MessageTag))
+                {
+                    const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+                    OnMessageWidgetDelegate.Broadcast(*Row);
+                }
+
             }
         }
         );
 }
-
-
