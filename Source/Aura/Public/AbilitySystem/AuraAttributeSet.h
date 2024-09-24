@@ -13,6 +13,7 @@
    GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
    GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
    GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
 /**
  * 
  */
@@ -57,6 +58,11 @@ struct FEffectProperties
 
 };
 
+
+template <class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
+
+
 UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
@@ -68,6 +74,9 @@ public:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
     virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+    TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+
 
 
     //************************** P R I M A R Y - A T T R I B U T E S ******************************
@@ -170,7 +179,7 @@ public:
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Vital Attributes")
     FGameplayAttributeData MaxMana;
     ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
-    
+
     //-----------------------------   
     UFUNCTION()
     void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
