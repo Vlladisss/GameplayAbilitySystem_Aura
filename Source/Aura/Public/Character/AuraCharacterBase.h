@@ -14,13 +14,13 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public  ICombatInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
     GENERATED_BODY()
 
 public:
     AAuraCharacterBase();
-    
+
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
     UAttributeSet* GetAttributeSet() const;
 
@@ -34,6 +34,11 @@ protected:
 
     UPROPERTY(VisibleAnywhere, Category = "Combat")
     FName WeaponSocketName = "WeaponHandSocket";
+
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    FName WeaponTipSocketName;
+
+    virtual FVector GetCombatSocketLocation() override; 
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -52,13 +57,12 @@ protected:
     TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 
-    
     void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
     void InitializeDefaultAttributes() const;
-    
-void AddCharacterAbilities();
-private:
 
+    void AddCharacterAbilities();
+
+private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
     TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
