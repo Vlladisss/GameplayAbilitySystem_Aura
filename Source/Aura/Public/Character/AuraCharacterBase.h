@@ -24,6 +24,9 @@ public:
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
     UAttributeSet* GetAttributeSet() const;
 
+    
+    int32 TestNum = 1;
+
 protected:
     virtual void BeginPlay() override;
 
@@ -38,7 +41,7 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Combat")
     FName WeaponTipSocketName;
 
-    virtual FVector GetCombatSocketLocation() override; 
+    virtual FVector GetCombatSocketLocation() override;
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
