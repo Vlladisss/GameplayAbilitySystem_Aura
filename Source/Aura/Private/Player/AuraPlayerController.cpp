@@ -79,12 +79,9 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
         return;
     }
 
-    if (bTargeting)
-    {
-        if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+    if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 
-    }
-    else
+    if (!bTargeting && !bShiftKeyDown)
     {
         if (!GetWorld()) return;
 
@@ -95,7 +92,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
             {
                 Spline->ClearSplinePoints();
                 for (const FVector& PointLoc : NavPath->PathPoints)
-                { 
+                {
                     Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
                 }
                 CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
@@ -104,6 +101,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
         }
         FollowTime = 0.f;
         bTargeting = false;
+
     }
 
 }
@@ -116,7 +114,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
         return;
     }
 
-    if (bTargeting)
+    if (bTargeting || bShiftKeyDown)
     {
         if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
     }
@@ -175,8 +173,20 @@ void AAuraPlayerController::SetupInputComponent()
     UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 
     AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+    AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+    AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftPressed);
     AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 
+}
+
+void AAuraPlayerController::ShiftPressed()
+{
+    bShiftKeyDown = true;
+}
+
+void AAuraPlayerController::ShiftReleased()
+{
+    bShiftKeyDown = false;
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)

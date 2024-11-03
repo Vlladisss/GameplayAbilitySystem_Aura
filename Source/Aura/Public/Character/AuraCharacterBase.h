@@ -24,8 +24,6 @@ public:
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
     UAttributeSet* GetAttributeSet() const;
 
-    
-    int32 TestNum = 1;
 
 protected:
     virtual void BeginPlay() override;
