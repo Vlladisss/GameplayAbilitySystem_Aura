@@ -1,7 +1,7 @@
 // Vladyslav Kliukin (Gameplay Ability System) Project: "Aura"
 
 
-#include "AbilitySystemData/AttributeInfo.h"
+#include "AbilitySystem/Data//AttributeInfo.h"
 
 FAuraAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound) const
 {

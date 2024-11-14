@@ -60,7 +60,7 @@ struct FEffectProperties
 
 
 template <class T>
-using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 
 
 UCLASS()
@@ -76,7 +76,6 @@ public:
     virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
     TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
-
 
 
     //************************** P R I M A R Y - A T T R I B U T E S ******************************
@@ -211,10 +210,18 @@ public:
     UFUNCTION()
     void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
     //-----------------------------   
-
     //*********************************************************************************************
+    /*
+     *
+     * 
+     */
+    //****************************** M E T A - A T T R I B U T E S ********************************
 
+    UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+    FGameplayAttributeData IncomingDamage;
+    ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
 
 private:
     void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
+    void ShowFloatingText(const FEffectProperties& Props, float Damage) const;
 };

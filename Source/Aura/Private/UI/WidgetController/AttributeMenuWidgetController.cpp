@@ -3,7 +3,7 @@
 
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystem/AuraAttributeSet.h"
-#include "AbilitySystemData/AttributeInfo.h"
+#include "AbilitySystem/Data/AttributeInfo.h"
 
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()

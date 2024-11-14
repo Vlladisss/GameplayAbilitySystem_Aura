@@ -34,7 +34,8 @@ public:
     FGameplayTag Attributes_Secondary_MaxHealth;
     FGameplayTag Attributes_Secondary_MaxMana;
 
-
+    
+    //****************************** I N P U T - K E Y B O A R D **********************************
     FGameplayTag InputTag_LMB;
     FGameplayTag InputTag_RMB;
     FGameplayTag InputTag_1;
@@ -42,6 +43,10 @@ public:
     FGameplayTag InputTag_3;
     FGameplayTag InputTag_4;
 
+    //*************************************** D A M A G E *******************************************
+    FGameplayTag Damage;
+    FGameplayTag Effects_HitReact;
+    
 private:
     static FAuraGameplayTags GameplayTags;
 };

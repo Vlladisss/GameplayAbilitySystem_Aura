@@ -12,6 +12,7 @@ class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -20,10 +21,14 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 
 public:
     AAuraCharacterBase();
-
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-    UAttributeSet* GetAttributeSet() const;
+    virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+    virtual void Die() override;
 
+    UFUNCTION(NetMulticast, reliable)
+    virtual void MulticastHandleDeath();
+
+    UAttributeSet* GetAttributeSet() const;
 
 protected:
     virtual void BeginPlay() override;
@@ -59,12 +64,31 @@ protected:
 
 
     void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
-    void InitializeDefaultAttributes() const;
+    virtual void InitializeDefaultAttributes() const;
 
     void AddCharacterAbilities();
+
+
+    /*Dissolve Effects*/
+
+    void Dissolve();
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TObjectPtr<UMaterialInterface> DissolveMaterialInstance;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TObjectPtr<UMaterialInterface> WeaponDissolveMaterialInstance;
 
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
     TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    TObjectPtr<UAnimMontage> HitReactMontage;
 };
