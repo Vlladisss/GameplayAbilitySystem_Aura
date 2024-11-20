@@ -19,7 +19,6 @@ public:
     void AbilityActorInfoSet();
 
     FOnEffectAssetTagsDelegate OnEffectAssetTagsDelegate;
-
     void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 
     void AbilityInputTagHeld(const FGameplayTag& InputTag);

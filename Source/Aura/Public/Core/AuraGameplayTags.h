@@ -21,7 +21,7 @@ public:
     FGameplayTag Attributes_Primary_Resilience;
     FGameplayTag Attributes_Primary_Vigor;
 
-    
+
     //************************ S E C O N D A R Y - A T T R I B U T E S ****************************
     FGameplayTag Attributes_Secondary_Armor;
     FGameplayTag Attributes_Secondary_ArmorPenetration;
@@ -34,7 +34,7 @@ public:
     FGameplayTag Attributes_Secondary_MaxHealth;
     FGameplayTag Attributes_Secondary_MaxMana;
 
-    
+
     //****************************** I N P U T - K E Y B O A R D **********************************
     FGameplayTag InputTag_LMB;
     FGameplayTag InputTag_RMB;
@@ -44,9 +44,23 @@ public:
     FGameplayTag InputTag_4;
 
     //*************************************** D A M A G E *******************************************
+    //Damage Type
     FGameplayTag Damage;
+    FGameplayTag Damage_Fire;
+    FGameplayTag Damage_Lightning;
+    FGameplayTag Damage_Arcane;
+    FGameplayTag Damage_Physical;
+
+    //Resistance
+    FGameplayTag Attributes_Resistance_Fire;
+    FGameplayTag Attributes_Resistance_Lightning;
+    FGameplayTag Attributes_Resistance_Arcane;
+    FGameplayTag Attributes_Resistance_Physical;
+
+    TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
+
     FGameplayTag Effects_HitReact;
-    
+
 private:
     static FAuraGameplayTags GameplayTags;
 };

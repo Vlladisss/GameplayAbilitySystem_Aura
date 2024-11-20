@@ -1,5 +1,6 @@
 #pragma once
 #include "GameplayEffectTypes.h"
+
 #include "AuraAbilityTypes.generated.h"
 
 USTRUCT(BlueprintType)
@@ -30,13 +31,13 @@ public:
     }
 
     /** Returns the actual struct used for serialization, subclasses must override this! */
-    virtual UScriptStruct* GetScriptStruct() const
+    virtual UScriptStruct* GetScriptStruct() const override
     {
         return StaticStruct();
     }
 
     /** Creates a copy of this context, used to duplicate for later modifications */
-    virtual  FAuraGameplayEffectContext * Duplicate() const
+    virtual  FAuraGameplayEffectContext * Duplicate() const override
     {
         FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
         *NewContext = *this;
@@ -49,7 +50,7 @@ public:
     }
 
     /** Custom serialization, subclasses must override this */
-    virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+    virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess) override;
 
 protected:
     UPROPERTY()
@@ -59,12 +60,13 @@ protected:
     bool bIsCriticalHit = false;
 };
 
+
 template<>
-struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
 {
     enum
     {
-        WithNetSerializer = true,
-        WithCopy = true // Necessary so that TSharedPtr<FHitResult> Data is copied around
+        WithNetSerializer = true, // Включает поддержку сетевой сериализации
+        WithCopy = true           // Включает поддержку копирования (например, для Duplicate)
     };
 };
