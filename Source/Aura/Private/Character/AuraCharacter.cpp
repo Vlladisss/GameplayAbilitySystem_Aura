@@ -22,8 +22,8 @@ AAuraCharacter::AAuraCharacter()
     bUseControllerRotationRoll = false;
     bUseControllerRotationYaw = false;
 
-
 }
+
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
     Super::PossessedBy(NewController);
@@ -53,6 +53,8 @@ void AAuraCharacter::InitAbilityActorInfo()
 {
     AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
     check(AuraPlayerState);
+
+    if (!AuraPlayerState) return;
 
     AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
     Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
