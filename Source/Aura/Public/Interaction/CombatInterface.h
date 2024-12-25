@@ -24,13 +24,21 @@ class AURA_API ICombatInterface
 
 public:
     virtual int32 GetPlayerLevel();
-    virtual FVector GetCombatSocketLocation();
+
+    UFUNCTION(BlueprintNativeEvent, blueprintCallable)
+    FVector GetCombatSocketLocation();
 
     UFUNCTION(BlueprintImplementableEvent, blueprintCallable)
     void UpdateFacingTarget(const FVector& Target);
 
     UFUNCTION(BlueprintNativeEvent, blueprintCallable)
     UAnimMontage* GetHitReactMontage();
-
+    
     virtual void Die() = 0;
+
+    UFUNCTION(BlueprintNativeEvent, blueprintCallable)
+    bool IsDeath() const;
+
+    UFUNCTION(BlueprintNativeEvent, blueprintCallable)
+    AActor* GetAvatar();
 };

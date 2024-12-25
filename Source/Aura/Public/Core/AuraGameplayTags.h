@@ -44,6 +44,10 @@ public:
     FGameplayTag InputTag_4;
 
     //*************************************** D A M A G E *******************************************
+
+    //Abilities
+    FGameplayTag Abilities_Attack;
+    
     //Damage Type
     FGameplayTag Damage;
     FGameplayTag Damage_Fire;
@@ -56,6 +60,7 @@ public:
     FGameplayTag Attributes_Resistance_Lightning;
     FGameplayTag Attributes_Resistance_Arcane;
     FGameplayTag Attributes_Resistance_Physical;
+
 
     TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 

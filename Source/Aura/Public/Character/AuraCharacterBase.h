@@ -21,20 +21,25 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 
 public:
     AAuraCharacterBase();
+
+    // C O M B A T - I N T E R F A C E 
+    virtual FVector GetCombatSocketLocation_Implementation() override;
+    virtual bool IsDeath_Implementation() const override;
+    virtual AActor* GetAvatar_Implementation() override;
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
     virtual UAnimMontage* GetHitReactMontage_Implementation() override;
     virtual void Die() override;
+    // End C O M B A T - I N T E R F A C E 
+
 
     UFUNCTION(NetMulticast, reliable)
     virtual void MulticastHandleDeath();
 
-    UAttributeSet* GetAttributeSet() const;
-
 protected:
     virtual void BeginPlay() override;
+    bool bDead = false;
 
-    virtual void InitAbilityActorInfo();
-
+    // W E A P O N
     UPROPERTY(EditAnywhere, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> Weapon;
 
@@ -44,8 +49,7 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Combat")
     FName WeaponTipSocketName;
 
-    virtual FVector GetCombatSocketLocation() override;
-
+    // A B I L I T Y - S Y S T E M 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -58,15 +62,17 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
     TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 
-
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
     TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 
-    void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
+    virtual void InitAbilityActorInfo();
     virtual void InitializeDefaultAttributes() const;
 
+    void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
     void AddCharacterAbilities();
+    UAttributeSet* GetAttributeSet() const;
+    //**End Ability System **//
 
 
     /*Dissolve Effects*/
@@ -78,7 +84,7 @@ protected:
 
     UFUNCTION(BlueprintImplementableEvent)
     void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
-    
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TObjectPtr<UMaterialInterface> DissolveMaterialInstance;
 
